@@ -1,0 +1,249 @@
+.is_overlay{ display: block; width: 100%; height: 100%; }
+
+body {
+    background-color: black;
+}
+.main-box{
+    z-index: 100;
+    position: fixed;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background: rgba(0, 0, 0, 0.25); 
+    color: #fff; 
+    padding: 5px; 
+}
+.main-box .top-line{
+    width:100%;
+    height: 15%;
+    display: table;
+}
+.main-box .top-line > div{
+    display: table-cell;
+    text-align: center;
+    vertical-align: top;
+    padding-top: 15px;
+    /*border: 1px solid white;*/
+    width: 14%;
+}
+
+.top-line .account-box{
+    cursor: pointer;
+}
+.top-line .account-box img, .top-line .account-box div{   
+    /*display: inline-block; */ 
+}
+.top-line .account-box .wings{
+    width: 60px;    
+    margin:0px -5px;
+    z-index: 998;
+    position: relative;
+}
+.top-line .account-box .ava{
+    width: 80px;
+    height: 80px;
+    z-index: 999;
+    display:inline-block;
+    border-radius:40px;
+    position: relative;
+}
+
+
+.top-line .account-box .title{  
+    font-size: 0.8em;
+    font-weight: 400;
+    font-family: 'Metamorphous';
+    color: #f7edc4;
+    text-shadow: 1px 1px 2px black, 0 0 1em black;
+    
+}
+.main-box .bottom-line{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width:100%;
+    height: 50px;   
+}
+
+.main-box .bottom-line .sound-box{
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    background: url('../multimedia/sound-on.png');
+    cursor: pointer;
+    margin:12px;
+    opacity: 0.8;
+}
+.main-box .bottom-line .sound-box.switch{  
+    opacity: 0.5;
+    background: url('../multimedia/sound-off.png');  
+   
+}
+
+#trailer {
+    z-index: 1;
+    position: fixed;
+    top: 0; right: 0; bottom: 0; left: 0;
+    overflow: hidden;
+}
+#trailer > video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.figure{
+    position: absolute;
+    z-index: 1; 
+}
+.figure:hover {
+   
+     -webkit-animation-play-state: paused !important;
+    -moz-animation-play-state: paused !important;
+    -o-animation-play-state: paused !important;
+     animation-play-state: paused !important;
+}
+
+/*--- TOOLTIPS ---*/
+.tooltip{
+    position: absolute;   
+    display: none;
+    color: white;
+    font-size: 13px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 5px;
+    border-radius: 8px;
+    background-color: rgba(30, 10, 10, 0.55);
+    font-family: Courier New, monospace;   
+    z-index:1000;   
+}
+.tooltip.right{
+    right: 0;
+}
+.tooltip.left{
+    left: 0;
+}
+.tooltip table{
+    width: 100%; 
+}
+.tooltip table tr td:nth-child(2) div{    
+    word-wrap: break-word;
+    max-width: 150px !important;
+    overflow: hidden;
+}
+.tooltip table td{
+    text-indent: 3px;
+}
+.tooltip table .hd{
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.3);   
+    padding-top: 6px;
+    font-size: 15px;
+    padding-bottom: 7px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: bold;
+    color: orange;
+    background-color: rgba(51, 0, 0, 0.35);
+}
+.tooltip table td span{
+    white-space: nowrap
+}
+.tooltip .author-link{
+    font-size: 15px;
+    font-weight: bold;
+    color: #e0bd00;
+    cursor: pointer;
+}
+.tooltip .coins{
+    color: #9fd468;
+    font-weight: bold;
+    font-size: 15px;
+}
+.tooltip .percent{
+    color: #8CC4FF;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.permlink{
+    color: #e0bd00;
+    font-weight: bold;
+    text-decoration: none;
+}
+.author-link{
+    color: #fefefe;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+
+
+/* 1. No object-fit support: */
+@media (min-aspect-ratio: 16/9) {
+    #trailer > video { height: 300%; top: -100%; }
+}
+@media (max-aspect-ratio: 16/9) {
+    #trailer > video { width: 300%; left: -100%; }
+}
+/* 2. If supporting object-fit, overriding (1): */
+@supports (object-fit: cover) {
+    #trailer > video {
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        object-fit: cover;
+    }
+}
+
+.dev-label{
+    position:absolute;
+    bottom: 5px;
+    right: 5px;
+    margin: 11px;   
+    color: #999;
+    font-size: 12px; 
+    cursor:pointer;
+}   
+
+.dev-label span{
+    background: url(../multimedia/sun-sm.png) no-repeat;
+    background-position: 1px 2px;
+    background-color: #0100be;
+    font-size: 12px;
+    padding: 1px 4px 3px 17px;
+    letter-spacing: 0.05em;
+    color: white; 
+}
+
+
+@media only screen and (max-width: 1300px) {
+    .top-line .account-box .wings{
+        width: 50px;    
+    }
+    .top-line .account-box .ava{
+        width: 70px;
+       height: 70px;
+       border-radius:35px;
+    }
+    
+}
+
+@media only screen and (max-width: 1150px) {
+    .top-line .account-box .wings{
+        width: 40px;    
+    }
+    .top-line .account-box .ava{
+        width: 50px;
+       height: 50px;
+       border-radius:25px;
+    }    
+}
+@media only screen and (max-width: 900px) {
+    .top-line .account-box .wings{
+        width: 40px;    
+    }
+    .top-line .account-box .ava{
+        width: 50px;
+       height: 50px;
+       border-radius:25px;
+    }    
+}
