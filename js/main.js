@@ -2,6 +2,7 @@
 var GLOBAL = null;
 var DOMAIN = 'https://steemit.com/';  
 var ACCOUNTS = [
+    {name: 'adollaraday'},
     {name: 'reliquary'},
     {name: 'sniffnscurry'},
     {name: 'sc-v'},    
@@ -21,6 +22,12 @@ var PICTURES = {
     star: './multimedia/star.png'
 };
 var LEGAL_OPERATIONS = ['vote', 'comment', 'transfer']; // list of operations eligible for processing 
+
+// levels of SP delegator
+var big_delegator_value = 1000; 
+var start_delegator_value = 500;
+
+var HISTORY_NUM = 1; // num of last account operations to show
 
 var debug = 1;
 //steem.api.setOptions({ url: 'https://api.steemit.com' });
@@ -66,7 +73,7 @@ $(function () {
 });
 
 async function run(){   
-    displayAccounts();
+    displayAccounts(ACCOUNTS);
     //GLOBAL = await steem.api.getDynamicGlobalPropertiesAsync();
     showAccountsHistory();
     fillDelegatorsPopup();
@@ -100,7 +107,19 @@ async function fillDelegatorsPopup(){
     }
     tooltip += '</table>';
     $('.cl-steemchurch .tooltip').html(tooltip);
+    addBigDelegators(delegators);
     return tooltip;          
+}
+
+// add delegators with big amount (>500SP) to angels bar
+async function addBigDelegators(delegators){
+    
+    // delete main accounts dublicates and get accounts delegated > 500SP
+    let match_delegators = delegators.filter(function(data){
+        return (ACCOUNTS.find(function(acc){return data.name == acc.name;}) === undefined) && (data.value*1 >= start_delegator_value);       
+    });
+    match_delegators.sort(function(a,b){if(a.value*1 > b.value*1) return -1; if(a.value*1 < b.value*1) return 1; return 0;});
+    displayAccounts(match_delegators);   
 }
 
 // calls respective animation dependly of an operation
@@ -171,7 +190,7 @@ async function getDelegators(){
             }
         }
     }
-    console.log(delegators.length);
+    //console.log(delegators.length);
     return delegators;
 }
 
@@ -218,14 +237,18 @@ function createAnimation(picture, main_account, interact_account, direction, tit
     );
 }
 
-async function displayAccounts(){
+async function displayAccounts(_accounts){
        
-    for(let acc of ACCOUNTS){    
+    for(let acc of _accounts){    
         let wings = (acc.name == 'sirknight') ? 'black' : 'white';
         let tooltip = acc.name == 'steemchurch' ? '<div class="tooltip"><span class="bright">Loading delegators...</span></div>' : '';
         let church_class = acc.name == 'steemchurch' ? 'church' : '';
         let top = acc.name == 'steemchurch' || acc.name == 'sirknight' ? 'top' : '';
-        $('.top-line').append("<div class='cl-"+acc.name+" account-box "+top+"' onclick='window.location=\"https://steemit.com/@"+acc.name+"\"'><img class='wings "+church_class+"' src='./multimedia/wing-left-"+wings+".png'/><div class='ava "+church_class+"' style='background: url(https://steemitimages.com/u/"+acc.name+"/avatar) no-repeat; background-size: cover;'></div><img  class='wings "+church_class+"' src='./multimedia/wing-right-"+wings+".png'/><div class='title'>"+acc.name+"</div>"+tooltip+"</div>");
+        
+        let size = (acc.value === undefined || acc.value >= big_delegator_value) ? 'big' : 'small';
+        
+        let account_box = $("<div class='cl-"+acc.name+" account-box "+size+" "+top+"' onclick='window.location=\"https://steemit.com/@"+acc.name+"\"'><img class='wings "+church_class+"' src='./multimedia/wing-left-"+wings+".png'/><div class='ava "+church_class+"' style='background: url(https://steemitimages.com/u/"+acc.name+"/avatar) no-repeat; background-size: cover;'></div><img  class='wings "+church_class+"' src='./multimedia/wing-right-"+wings+".png'/><div class='title'>"+acc.name+"</div>"+tooltip+"</div>");
+        $(account_box).appendTo('.top-line').hide().fadeIn(1500);
     }
 } 
 
@@ -256,7 +279,7 @@ function initKeyframe(id, account, direction){
     return key_set[getRand(0, key_set.length-1)];
 }
 
-// randomly show last 2 LEGAL_OPERATIONS matches from  history of all acounts
+// randomly show last HISTORY_NUM LEGAL_OPERATIONS matches from  history of all acounts
 async function showAccountsHistory(){
     let random_history = new Array();
     for(let acc of ACCOUNTS){
@@ -270,7 +293,7 @@ async function showAccountsHistory(){
                         cnt++;
                     }
                 } 
-                if(cnt >= 2){break;}
+                if(cnt >= HISTORY_NUM){break;}
             }
         }
     }

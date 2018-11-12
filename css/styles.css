@@ -37,11 +37,17 @@ body {
 }
 
 .top-line .account-box{
-    cursor: pointer;
+    cursor: pointer;    
 }
 
-.top-line .account-box .wings{
+.top-line .account-box.big .wings{
     width: 40px;    
+    margin:0px -5px;
+    z-index: 998;
+    position: relative;
+}
+.top-line .account-box.small .wings{
+    width: 30px;    
     margin:0px -5px;
     z-index: 998;
     position: relative;
@@ -54,7 +60,7 @@ body {
     height: 80px !important;
     border-radius:40px !important;
 }
-.top-line .account-box .ava{
+.top-line .account-box.big .ava{
     width: 50px;
     height: 50px;
     z-index: 999;
@@ -62,16 +68,30 @@ body {
     border-radius:25px;
     position: relative;
 }
+.top-line .account-box.small .ava{
+    width: 40px;
+    height: 40px;
+    z-index: 999;
+    display:inline-block;
+    border-radius:20px;
+    position: relative;
+}
 
 
 .top-line .account-box .title{  
-    font-size: 0.8em;
     font-weight: 400;
     font-family: 'Metamorphous';
     color: #f7edc4;
     text-shadow: 1px 1px 2px black, 0 0 1em black;
-    
 }
+
+.top-line .account-box.big .title{  
+    font-size: 0.8em;  
+}
+.top-line .account-box.small .title{  
+    font-size: 0.7em;  
+}
+
 .main-box .bottom-line{
     position: absolute;
     bottom: 0;
